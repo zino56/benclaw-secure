@@ -1,18 +1,11 @@
-#!/bin/bash
-set -euo pipefail  # Fail fast + no unset vars
+#!/bin/sh
+set -eu
 
-# Validate all required env vars
-: "${TELEGRAM_BOT_TOKEN:?Error: Missing TELEGRAM_BOT_TOKEN}"
-: "${LLM_API_KEY:?Error: Missing LLM_API_KEY}"
-: "${LLM_PROVIDER:?Error: Missing LLM_PROVIDER}"
+: "${LLM_PROVIDER:?Missing LLM_PROVIDER}"
+: "${LLM_MODEL:?Missing LLM_MODEL}"
+: "${LLM_API_KEY:?Missing LLM_API_KEY}"
+: "${TELEGRAM_BOT_TOKEN:?Missing TELEGRAM_BOT_TOKEN}"
 
-# Secure zeroclaw config (never hardcode)
-cat > ~/.zeroclaw/.zeroclaw/config.toml << EOF
-[providers.default]
-provider = "$LLM_PROVIDER"
-model = "glm-4-flash"
-api_key = "$LLM_API_KEY"
-EOF
-
-# Run zeroclaw with strict permissions
+zeroclaw onboard --provider "$LLM_PROVIDER" --model "$LLM_MODEL" --api-key "$LLM_API_KEY"
+zeroclaw channel add telegram --token "$TELEGRAM_BOT_TOKEN" || true
 exec zeroclaw channel start
