@@ -3,7 +3,6 @@ set -eu
 
 mkdir -p /tmp/zc-home
 export HOME=/tmp/zc-home
-export PATH="$HOME/.cargo/bin:$PATH"
 
 : "${LLM_PROVIDER:?Missing LLM_PROVIDER}"
 : "${LLM_MODEL:?Missing LLM_MODEL}"
