@@ -1,6 +1,9 @@
 #!/bin/sh
 set -eu
 
+mkdir -p /tmp/zc-home
+export HOME=/tmp/zc-home
+
 : "${LLM_PROVIDER:?Missing LLM_PROVIDER}"
 : "${LLM_MODEL:?Missing LLM_MODEL}"
 : "${LLM_API_KEY:?Missing LLM_API_KEY}"
